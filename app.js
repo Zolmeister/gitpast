@@ -70,13 +70,9 @@ app.get('/users/:user', function (req, res) {
 
 function githubReq(path) {
   return requestP({
-    url: 'https://api.github.com'+path,
+    url: 'https://api.github.com'+path+'?access_token='+GITHUB_KEY,
     headers: {
       'user-agent': 'Zolmeister'
-    },
-    auth: {
-      user: 'zolmeister',
-      pass: GITHUB_KEY
     },
     json: true
   })
