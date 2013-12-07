@@ -41,11 +41,11 @@ app.get('/users/:user', function (req, res) {
   githubReq(path).then(function(repos) {
     var reqs = []
     var dates = []
-    for (var i = 0; i < Math.min(repos.length, 5); i++) {
+    for (var i = 0; i < Math.min(repos.length, 10); i++) {
       var repo = repos[i]
       var name = repo.name
       var owner = repo.owner.login
-      var date = new Date(repo.create_at)
+      var date = new Date(repo.created_at).getFullYear()
       dates.push(date)
       
       var path = '/repos/'+owner+'/'+name+'/languages'
@@ -53,13 +53,42 @@ app.get('/users/:user', function (req, res) {
       reqs.push(githubReq(path))
     }
     
+    var datesFinal = _.uniq(dates).sort()
+    
     // { lang: bytes }
     return Q.all(reqs).then(function(languages) {
-      // dates: {}
+      // dates: [1993, 1994, 1994, 1990, ...]
       // series: { name: lang, data: [1,2,3]}
+      var series = {}
+      languages.forEach(function(val, i) {
+        for(var lang in val) {
+          if(!series[lang]) {
+            series[lang] = {
+              name: lang,
+              data: []
+            }
+          }
+          
+          var date = dates[i]
+          if(!series[lang].data[datesFinal.indexOf(date)]){
+            series[lang].data[datesFinal.indexOf(date)] = val[lang]
+          } else {
+            series[lang].data[datesFinal.indexOf(date)] += val[lang]
+          }
+        }
+      
+      })
+      
+      var result = []
+      for(var i in series) {
+        result.push(series[i])
+      }
       
       console.log('all requests finished')
-      res.json(languages)
+      res.json({
+        dates: datesFinal,
+        series: result
+      })
     })
   }).fail(function(err) {
     console.error(err)

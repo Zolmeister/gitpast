@@ -1,8 +1,24 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
+<style>
+input {
+  font-size: 30px;
+}
+</style>
 
-<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<!-- TODO: use Angular... -->
+<form id='user1Form'>
+  <input value='Zolmeister' name='name'>
+  <input type='submit'>
+</form>
+<div id="user1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+  
+<form id='user2Form'>
+  <input value='gsilk' name='name'>
+  <input type='submit'>
+</form>
+<div id="user2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 
 <script src='/js/main.js'></script>
