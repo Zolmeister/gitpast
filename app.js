@@ -41,7 +41,7 @@ app.get('/users/:user', function (req, res) {
   githubReq(path).then(function(repos) {
     var reqs = []
     var dates = []
-    for (var i = 0; i < Math.min(repos.length, 10); i++) {
+    for (var i = 0; i < repos.length; i++) {
       var repo = repos[i]
       var name = repo.name
       var owner = repo.owner.login
