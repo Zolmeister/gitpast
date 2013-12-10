@@ -9,9 +9,13 @@ var express = require('express'),
   path = require('path'),
   request = require('request'),
   _ = require('lodash'),
-  Q = require('q'),
+  Q = require('q');
+try {
   local = require('./local'),
   GITHUB_KEY = local.GITHUB_KEY
+} catch(e) {
+  GITHUB_KEY = process.env.GITHUB_KEY
+}
 
 var app = express();
 
